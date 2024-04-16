@@ -32,11 +32,13 @@ def send_alert(title, message):
 
 while True:
     response = requests.post(url_node, data=json.dumps(data_node), headers=headers_node).json()
-    test_response = {"jsonrpc":"2.0","result":{"Active":{"expires_at":1713262470000}},"id":1}
-    response = test_response
+    # test_response = {"jsonrpc":"2.0","result":{"Active":{"expires_at":1713262470000}},"id":1}
+    # response = test_response
     expires_at = time.time()
     if response['result'] == False:
-        print('Node is not syncing')
+        print('Node is not answer!!!')
+        res = send_alert(title=host_name, message='⛔ Node is not answer!!!')
+        print('Send alert:', res)
     else:
         result = response['result']
         
