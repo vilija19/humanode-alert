@@ -14,9 +14,10 @@ load_dotenv()
 alert_treshold = int(os.getenv('ALERT_TRESHOLD'))
 sleep_timeout = int(os.getenv('SLEEP_TIMEOUT'))
 host_name = os.getenv('HOST_NAME')
+bioauth_link = os.getenv('BIOAUTH_LINK')
 
 url_node = os.getenv('URL_NODE')
-data_node = {'jsonrpc': '2.0', 'method': 'eth_syncing', 'params': [], 'id': 1}
+data_node = {'jsonrpc': '2.0', 'method': 'bioauth_status', 'params': [], 'id': 1}
 headers_node = {'Content-Type': 'application/json'}
 
 # Send alert to telegram
@@ -31,14 +32,27 @@ def send_alert(title, message):
     return response.get('ok')
 
 while True:
-    response = requests.post(url_node, data=json.dumps(data_node), headers=headers_node).json()
-    # test_response = {"jsonrpc":"2.0","result":{"Active":{"expires_at":1713262470000}},"id":1}
-    # response = test_response
-    expires_at = time.time()
-    if response['result'] == False:
+    time.sleep(sleep_timeout)
+    try:
+        response = requests.post(url_node, data=json.dumps(data_node), headers=headers_node).json()
+    except requests.exceptions.RequestException as e:
         print('Node is not answer!!!')
         res = send_alert(title=host_name, message='⛔ Node is not answer!!!')
         print('Send alert:', res)
+        continue
+    # Test response
+    # test_response = {"jsonrpc":"2.0","result":{"Active":{"expires_at":1713262470000}},"id":1}
+    # response = test_response
+    
+    expires_at = time.time()
+    if response['result'] == False:
+        print('Bioauth status is False')
+        message='⛔ Bioauth status is False'
+        if bioauth_link:
+            message += f'\n[Bioauth_link]({bioauth_link})'
+        res = send_alert(title=host_name, message=message)
+        print('Send alert:', res)
+        continue
     else:
         result = response['result']
         
@@ -53,12 +67,13 @@ while True:
     print('Diff:', diff)
     if diff < 0:
         print('Bioauth status has expired')
-        res = send_alert(title=host_name, message='⛔ Bioauth status has expired')
+        message='⛔ Bioauth status has expired'
+        if bioauth_link:
+            message += f'\n[Bioauth_link]({bioauth_link})'
+        res = send_alert(title=host_name, message=message)
         print('Send alert:', res)
 
     elif diff < alert_treshold:
         print('Bioauth status will expire in', diff, 'seconds')
         send_alert(title=host_name, message=f'⚠️ Bioauth status will expire in {diff} seconds')
         print('Send alert:', res)
-
-    time.sleep(sleep_timeout)
