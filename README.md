@@ -48,6 +48,14 @@ Start the script:
 ./build.sh
 ./start.sh
 ```
+To stop the script:
+```bash
+docker stop humanode-alert
+```
+To start or restart the script after changes in the .env file:
+```bash
+docker restart humanode-alert
+```
 # Telegram bot
 To create a Telegram bot, you need to follow the instructions:
 1. Register bot: send "/newbot" to @BotFather and follow instructions
@@ -61,3 +69,8 @@ To create a Telegram bot, you need to follow the instructions:
     4.2. Send "/getgroupid@myidbot" in your group  
     4.3. Copy returned group id save it in the "TELEGRAM_CHAT_ID" in file .env file  
     4.4. Send "/start@your_bot_name_here" in your group (Telegram bot won't send anything to the group without it)  
+
+  
+
+Example of alerts:  
+![ScreenShot](https://raw.github.com/vilija19/storage/main/2024-04-18_17-30.png)
