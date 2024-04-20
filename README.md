@@ -64,7 +64,7 @@ To create a Telegram bot, you need to follow the instructions:
     3.1. Send "/getid" to "@myidbot" in Telegram messenger  
     3.2. Copy returned chat id and save it in the "TELEGRAM_CHAT_ID" in .env file   
     3.3. Ask the user to send "/start" to your bot (Telegram bot won't send anything to the user without it)  
-4. If you want to send group notifications, you need to get group id of the group you want to send messages to:
+4. If you want to send group notifications, you need to get group id of the group you want to send messages to:  
     4.1. Add "@myidbot" to your group  
     4.2. Send "/getgroupid@myidbot" in your group  
     4.3. Copy returned group id save it in the "TELEGRAM_CHAT_ID" in file .env file  
@@ -73,4 +73,7 @@ To create a Telegram bot, you need to follow the instructions:
   
 
 Example of alerts:  
-![ScreenShot](https://raw.github.com/vilija19/storage/main/2024-04-18_17-30.png)
+![ScreenShot](https://raw.github.com/vilija19/storage/main/2024-04-18_17-30.png)  
+
+Tips to:  
+hmp43ibc1Np1RL6KFwBThBBQpJC5bgoH9HkDVcfhr8NV35s3R

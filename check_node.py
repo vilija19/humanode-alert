@@ -12,10 +12,15 @@ alert_treshold = int(os.getenv('ALERT_TRESHOLD'))
 sleep_timeout = int(os.getenv('SLEEP_TIMEOUT'))
 host_name = os.getenv('HOST_NAME')
 bioauth_link = os.getenv('BIOAUTH_LINK')
+test_mode = int(os.getenv('TEST_MODE'))
 
 url_node = os.getenv('URL_NODE')
 data_node = {'jsonrpc': '2.0', 'method': 'bioauth_status', 'params': [], 'id': 1}
 headers_node = {'Content-Type': 'application/json'}
+
+if test_mode:
+    print('Test mode is enabled')
+    sleep_timeout = 60
 
 # Send alert to telegram
 def send_alert(title, message):
@@ -38,9 +43,11 @@ if __name__ == '__main__':
             res = send_alert(title=host_name, message='⛔ Node is not answer!!!')
             print('Send alert:', res)
             continue
-        # Test response
-        # test_response = {"jsonrpc":"2.0","result":{"Active":{"expires_at":1713262470000}},"id":1}
-        # response = test_response
+
+        if test_mode:
+            # Test response
+            test_response = {"jsonrpc":"2.0","result":{"Active":{"expires_at":1713262470000}},"id":1}
+            response = test_response
         
         expires_at = time.time()
         if response['result'] == False:
