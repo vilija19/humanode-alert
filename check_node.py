@@ -50,9 +50,9 @@ if __name__ == '__main__':
             response = test_response
         
         expires_at = time.time()
-        if response['result'] == False:
-            print('Bioauth status is False')
-            message='⛔ Bioauth status is False'
+        if response['result'] == "Inactive":
+            print('Bioauth status is Inactive')
+            message='⛔ Bioauth status is Inactive'
             if bioauth_link:
                 message += f'\n[Bioauth_link]({bioauth_link})'
             res = send_alert(title=host_name, message=message)
